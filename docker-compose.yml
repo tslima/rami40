@@ -1,0 +1,35 @@
+version: '3.7'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3.11-management
+    ports:
+      - 5672:5672
+      - 15672:15672
+
+  mysql:
+    image: mysql:8.0.33
+    volumes:
+      - ./mysql:/var/lib/mysql
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+  
+  mosquitto:
+    image: eclipse-mosquitto:2.0.15-openssl
+    volumes:
+      - ./mosquitto/config:/mosquitto/config
+      - ./mosquitto/data:/mosquitto/data 
+      - ./mosquitto/log:/mosquitto/log
+    ports:
+      - 1883:1883
+      - 9001:9001
+
+  # machine1:
+  #   build: ./machine
+  #   ports:
+  #     - 5001:5000
+  #   depends_on:
+  #     - rabbitmq
+
